@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+  <name>GP: Information page > Info module</name>
+  <code>information-info-module</code>
+  <version>1.0</version>
+  <author>George Protonotarios</author>
+  <link>https://www.digital4u.gr</link>
+
+   
+
+    <!-- Make information module contents manageable in admin. and flag them by page-id in class in frontend -->
+  
+    <file path="catalog/controller/extension/module/information.php">
+        <operation>
+            <search><![CDATA[foreach ($this->model_catalog_information->getInformations() as $result) {]]></search>
+            <add offset="5" position="replace"><![CDATA[
+            
+                foreach ($this->model_catalog_information->getInformations() as $result) {
+            		if ($result['bottom']) {
+        				$data['informations'][] = array(
+        					'title' => $result['title'],
+        					'information_id' => $result['information_id'],
+        					'href'  => $this->url->link('information/information', 'information_id=' . $result['information_id'])
+        				);
+            		}  
+        		}
+        		
+            ]]></add>
+         </operation>
+        
+        <operation>
+            <search><![CDATA[ $data['sitemap'] = $this->url->link('information/sitemap'); ]]></search>
+            <add position="replace"><![CDATA[ ]]></add>
+        </operation>
+         
+     </file>
+     
+     <file path="catalog/view/theme/*/template/extension/module/information.twig">
+        <operation>
+            <search><![CDATA[<li><a href="{{ information.href }}">{{ information.title }}</a></li>]]></search>
+            <add position="replace"><![CDATA[
+                <li class=" information_page_{{ information.information_id }} " ><a href="{{ information.href }}">{{ information.title }}</a></li>
+            ]]></add>
+         </operation>
+     </file>
+     
+    <!-- Make information module contents manageable in admin : translations -->
+
+     <file path="admin/language/el-gr/catalog/information.php">
+        <operation>
+            <search><![CDATA[ $_['entry_bottom']           = 'Κάτω'; ]]></search>
+            <add position="replace"><![CDATA[
+                $_['entry_bottom']            = 'Πλαϊνό μενού';
+            ]]></add>
+         </operation>
+     </file>
+     
+     <file path="admin/language/el-gr/catalog/information.php">
+        <operation>
+            <search><![CDATA[ $_['help_bottom']            = 'Εμφάνιση κάτω στο υποσέλιδο (footer).'; ]]></search>
+            <add position="replace"><![CDATA[
+                $_['help_bottom']            = 'Εμφάνιση στο πλαϊνό μενού σελίδων πληροφοριών';
+            ]]></add>
+         </operation>
+     </file>
+     
+     <file path="admin/language/en-gb/catalog/information.php">
+        <operation>
+            <search><![CDATA[ $_['entry_bottom']           = 'Bottom'; ]]></search>
+            <add position="replace"><![CDATA[
+                $_['entry_bottom']            = 'Include in sidebar';
+            ]]></add>
+         </operation>
+     </file>
+     
+     <file path="admin/language/en-gb/catalog/information.php">
+        <operation>
+            <search><![CDATA[ $_['help_bottom']            = 'Display in the bottom footer.'; ]]></search>
+            <add position="replace"><![CDATA[
+                $_['help_bottom']            = 'Display in information sidebar menu';
+            ]]></add>
+         </operation>
+     </file>
+     
+    
+    <file path="catalog/view/theme/digital4u/template/common/header.twig">
+
+        <!-- Detect Current -->
+
+        <operation>
+        <search><![CDATA[ </head> ]]></search>
+        <add position="before"><![CDATA[
+            
+            {% if ( routeClass == "information-information") %}
+            
+                <script>
+                
+                    $( document ).ready(function() {
+                        var current_url = $(location).attr('href');
+                        $(".sidebar .nav-tabs > li").each(function(){
+                            if($(this).find("a").attr("href") == current_url){
+                                $(this).addClass("current");
+                            }
+                        })
+                    })
+                
+                </script>
+                
+            {% endif %}   
+            
+          ]]></add>
+      </operation>
+
+      
+  </file>
+  
+  
+</modification>

@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+  <name>3 Add New Badge Products</name>
+  <code>module-new-badge</code>
+  <version>1.0</version>
+  <author>T.Kostoulas</author>
+  <link>https://www.digital4u.gr</link>
+  <file path="catalog/controller/extension/module/{bestseller,latest,special,recently_viewed}.php">
+    <operation>
+      <search><![CDATA[$data['products'][] = array(]]></search>
+      <add position="before"><![CDATA[
+      if($this->config->get('module_new_badge_status')){
+            $this->load->model('extension/module/new_badge');
+
+            $pde = $this->model_extension_module_new_badge->productExistsCt($result['product_id']);
+
+            if ($pde) {
+                $product_new_badge = '<span>NEW</span>';
+            } else {
+                $product_new_badge = '';
+            } 
+      } else {
+            $product_new_badge = '';
+      }
+      ]]></add>
+    </operation>
+    <operation>
+      <search><![CDATA['tax'         => $tax,]]></search>
+      <add position="after"><![CDATA[
+        'new_badge'         => $product_new_badge,
+      ]]></add>
+    </operation>
+   </file>
+
+    <file path="catalog/controller/checkout/cart.php">
+    <operation>
+      <search><![CDATA[$data['products'][] = array(]]></search>
+      <add position="before"><![CDATA[
+      if($this->config->get('module_new_badge_status')){
+            $this->load->model('extension/module/new_badge');
+
+            $pde = $this->model_extension_module_new_badge->productExistsCt($product['product_id']);
+
+            if ($pde) {
+                $product_new_badge = '<span>NEW</span>';
+            } else {
+                $product_new_badge = '';
+            } 
+      } else {
+            $product_new_badge = '';
+      }
+      ]]></add>
+    </operation>
+    <operation>
+      <search><![CDATA[$data['products'][] = array(]]></search>
+      <add position="after"><![CDATA[
+        'new_badge'         => $product_new_badge,
+      ]]></add>
+    </operation>
+   </file>
+
+   <file path="catalog/controller/extension/module/{featured,products_carousel}.php">
+    <operation>
+      <search><![CDATA[$data['products'][] = array(]]></search>
+      <add position="before"><![CDATA[
+      if($this->config->get('module_new_badge_status')){
+            $this->load->model('extension/module/new_badge');
+
+            $pde = $this->model_extension_module_new_badge->productExistsCt($product_info['product_id']);
+
+            if ($pde) {
+                $product_new_badge = '<span>NEW</span>';
+            } else {
+                $product_new_badge = '';
+            } 
+      } else {
+            $product_new_badge = '';
+      }
+      ]]></add>
+    </operation>
+    <operation>
+      <search><![CDATA['tax'         => $tax,]]></search>
+      <add position="after"><![CDATA[
+        'new_badge'         => $product_new_badge,
+      ]]></add>
+    </operation>
+   </file>
+
+  <file path="catalog/controller/extension/module/productbundles.php">
+    <operation>
+      <search><![CDATA[$this->data['bundles'][$bundle['id']]['products'][$product_id] = array(]]></search>
+      <add position="before"><![CDATA[
+        if($this->config->get('module_new_badge_status')){
+
+            $this->load->model('extension/module/new_badge');
+
+            $pde = $this->model_extension_module_new_badge->productExistsCt($product_id);
+
+            if ($pde) {
+                $product_new_badge = '<span>NEW</span>';
+            } else {
+                $product_new_badge = '';
+            } 
+        } else {
+            $product_new_badge = '';
+        }
+      ]]></add>
+    </operation>
+    <operation>
+      <search><![CDATA[$this->data['bundles'][$bundle['id']]['products'][$product_id] = array(]]></search>
+      <add position="after"><![CDATA[   'new_badge'         => $product_new_badge,]]></add>
+    </operation>
+  </file>
+  <file path="catalog/view/theme/default/template/extension/module/productbundles/productbundles.twig">
+    <operation>
+      <search><![CDATA[<div class='labels_container'>]]></search>
+      <add position="after"><![CDATA[
+      {% if product.new_badge %}
+        <div class="label_new">{{ product.new_badge }}</div>
+      {% endif %}
+      ]]></add>
+    </operation>
+  </file>
+
+
+    <file path="catalog/controller/product/product.php">
+      <operation>
+      <search><![CDATA[$data['products'][] = array(]]></search>
+      <add position="before"><![CDATA[
+      if($this->config->get('module_new_badge_status')){
+            $this->load->model('extension/module/new_badge');
+
+            $pde = $this->model_extension_module_new_badge->productExistsCt($result['product_id']);
+
+            if ($pde) {
+                $product_new_badge = '<span>NEW</span>';
+            } else {
+                $product_new_badge = '';
+            } 
+      } else {
+            $product_new_badge = '';
+      }
+      ]]></add>
+    </operation>
+    <operation>
+      <search><![CDATA[$data['options'] = array();]]></search>
+      <add position="before"><![CDATA[
+      if($this->config->get('module_new_badge_status')){
+            $this->load->model('extension/module/new_badge');
+
+            $pde = $this->model_extension_module_new_badge->productExistsCt($product_info['product_id']);
+
+            if ($pde) {
+                $data['tk_product_new_badge'] = '<span>NEW</span>';
+            } else {
+                $data['tk_product_new_badge'] = '';
+            } 
+      } else {
+            $data['tk_product_new_badge'] = '';
+      }
+      ]]></add>
+    </operation>
+    <operation>
+      <search><![CDATA['tax'         => $tax,]]></search>
+      <add position="after"><![CDATA[
+        'new_badge'         => $product_new_badge,
+      ]]></add>
+    </operation>
+  </file>  
+  <file path="catalog/controller/product/{category,compare,manufacturer,search,special}.php">
+    <operation>
+      <search><![CDATA[$data['products'][] = array(]]></search>
+      <add position="before"><![CDATA[
+      if($this->config->get('module_new_badge_status')){
+            $this->load->model('extension/module/new_badge');
+
+            $pde = $this->model_extension_module_new_badge->productExistsCt($result['product_id']);
+
+            if ($pde) {
+                $product_new_badge = '<span>NEW</span>';
+            } else {
+                $product_new_badge = '';
+            } 
+      } else {
+            $product_new_badge = '';
+      }
+      ]]></add>
+    </operation>
+    <operation>
+      <search><![CDATA['tax'         => $tax,]]></search>
+      <add position="after"><![CDATA[
+        'new_badge'         => $product_new_badge,
+      ]]></add>
+    </operation>
+  </file>
+
+  <file path="catalog/controller/extension/module/similar_products.php">
+    <operation>
+      <search><![CDATA[$data['products'][] = array(]]></search>
+      <add position="before"><![CDATA[
+      if($this->config->get('module_new_badge_status')){
+            $this->load->model('extension/module/new_badge');
+
+            $pde = $this->model_extension_module_new_badge->productExistsCt($result['product_id']);
+
+            if ($pde) {
+                $product_new_badge = '<span>NEW</span>';
+            } else {
+                $product_new_badge = '';
+            } 
+      } else {
+            $product_new_badge = '';
+      }
+      ]]></add>
+    </operation>
+    <operation>
+      <search><![CDATA['tax'        => $tax,]]></search>
+      <add position="after"><![CDATA[
+        'new_badge'         => $product_new_badge,
+      ]]></add>
+    </operation>
+  </file>
+
+   <file path="catalog/controller/extension/d4u/blog.php">
+    <operation>
+      <search><![CDATA[$data['blogproducts'][] = array(]]></search>
+      <add position="before"><![CDATA[
+      if($this->config->get('module_new_badge_status')){
+            $this->load->model('extension/module/new_badge');
+
+            $pde = $this->model_extension_module_new_badge->productExistsCt($result['product_id']);
+
+            if ($pde) {
+                $product_new_badge = '<span>NEW</span>';
+            } else {
+                $product_new_badge = '';
+            } 
+      } else {
+            $product_new_badge = '';
+      }
+      ]]></add>
+    </operation>
+    <operation>
+      <search><![CDATA['tax'         => $tax,]]></search>
+      <add position="after"><![CDATA[
+        'new_badge'         => $product_new_badge,
+      ]]></add>
+    </operation>
+  </file>
+
+  <file path="catalog/view/theme/digital4u/template/checkout/cart.twig">
+    <operation>
+      <search><![CDATA[<div class='labels_container'>]]></search>
+      <add position="after"><![CDATA[
+      {% if product.new_badge %}
+        <div class="label_new">{{ product.new_badge }}</div>
+      {% endif %}
+      ]]></add>
+    </operation>
+  </file>
+
+  <file path="catalog/view/theme/digital4u/template/extension/d4u/blog.twig">
+    <operation>
+      <search><![CDATA[<div class='labels_container'>]]></search>
+      <add position="after"><![CDATA[
+      {% if product.new_badge %}
+        <div class="label_new">{{ product.new_badge }}</div>
+      {% endif %}
+      ]]></add>
+    </operation>
+  </file>
+
+  <file path="catalog/view/theme/*/template/extension/module/*.twig">
+    <operation>
+      <search><![CDATA[<div class='labels_container'>]]></search>
+      <add position="after"><![CDATA[
+      {% if product.new_badge %}
+        <div class="label_new">{{ product.new_badge }}</div>
+      {% endif %}
+      ]]></add>
+    </operation>
+  </file>
+  <file path="catalog/view/theme/*/template/product/*.twig">
+    <operation>
+      <search><![CDATA[<div class='labels_container'>]]></search>
+      <add position="after"><![CDATA[
+      {% if product.new_badge %}
+        <div class="label_new">{{ product.new_badge }}</div>
+      {% endif %}
+      ]]></add>
+    </operation>
+    <operation>
+      <search><![CDATA[<div class='labels_container main-product-label'>]]></search>
+      <add position="after"><![CDATA[
+      {% if tk_product_new_badge %}
+        <div class="label_new">{{ tk_product_new_badge }}</div>
+      {% endif %}
+      ]]></add>
+    </operation>
+  </file>
+</modification>

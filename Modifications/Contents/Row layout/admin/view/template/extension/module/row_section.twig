@@ -1,0 +1,152 @@
+{{ header }}{{ column_left }}
+<div id="content"> 
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <button type="submit" form="form-module" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+    {% if error_warning %}
+    <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_edit }}</h3>
+      </div>
+      <div class="panel-body">
+        <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-module" class="form-horizontal">
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-name">{{ entry_name }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="name" value="{{ name }}" placeholder="{{ entry_name }}" id="input-name" class="form-control" />
+              {% if error_name %}
+              <div class="text-danger">{{ error_name }}</div>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-class">{{ entry_class }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="class" value="{{ class }}" placeholder="{{ entry_class }}" id="input-class" class="form-control" />
+            </div>
+          </div>
+
+          <div class="form-group">
+          <label class="col-sm-2 control-label" for="tabs_title[{{ language.language_id }}][name]"><span data-toggle="tooltip" title="{{ entry_tabs_title }}">{{ entry_tabs_title }}</span></label>
+          {% for language in languages %}
+            <div class="input-group col-sm-10" style="margin-left:auto; margin-bottom: 10px;padding-right: 15px"> <span class="input-group-addon"><img src="{{ language.flag_img }}" title="{{ language.name }}" /></span>
+                <input type="text" name="tabs_title[{{ language.language_id }}][name]" value="{% if tabs_title[language.language_id] is not null %}{{ tabs_title[language.language_id].name }}{% endif %}" placeholder="{{ entry_tabs_title }}" class="form-control" />
+            </div>
+            {% if error_tabs_title[language.language_id] is not null %}
+                <div class="text-danger">{{ error_tabs_title.language.language_id }}</div>
+            {% endif %}
+          {% endfor %}
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-width">{{ entry_width }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="width" value="{{ width }}" placeholder="{{ entry_width }}" id="input-width" class="form-control" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-height">{{ entry_height }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="height" value="{{ height }}" placeholder="{{ entry_height }}" id="input-height" class="form-control" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">{{ entry_image }}</label>
+            <div class="col-sm-10"><a href="" id="thumb-image" data-toggle="image" class="img-thumbnail"><img src="{{ thumb }}" alt="" title="" data-placeholder="{{ placeholder }}" /></a>
+              <input type="hidden" name="image" value="{{ image }}" id="input-image" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-name">{{ table_title }}</label>
+            <div class="col-sm-10">
+              <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                  <thead>
+                    <tr>
+                      <td class="text-left">{{ column_name }}</td>
+                      <td class="text-center">{{ column_order }}</td>
+                      <td class="text-right">{{ column_action }}</td>
+                    </tr>
+                  </thead>
+                  <tbody> 
+                  {% if extensions %}
+                    {% for extension in extensions %}
+                      {% if (extension.file == "featured") or (extension.file == "latest") or (extension.file == "specials") or (extension.file == "bestsellers") or (extension.file == "products_carousel") or (extension.file == "html") or (extension.file == "carousel") or (extension.file == "banner") %}
+                        {% for module in extension.module %}
+                        {% set foostatus = module.module_id ~ "_status" %}
+                        <tr>
+                          <td class="text-left">{{ extension.name }} >> {{ module.name }}</td>
+                          <td class="text-center"><input type="number" id="{{module.module_id}}" name="{{module.module_id}}_order" value="{{ module.custom_order }}"></td>
+                          <td class="text-right"><input type="checkbox" id="{{module.module_id}}" name="{{module.module_id}}_status" value="{{ module.custom_status }}" onclick="$(this).val(this.checked ? 1 : 0)"></td>
+                        </tr>
+                        {% endfor %}
+                      {% endif %}
+                    {% endfor %}
+                    <input id="hidden" type="hidden" name="module_ids" value="{{ module_ids }}"/>
+                  {% else %}
+                    <tr>
+                      <td class="text-center" colspan="3">{{ text_no_results }}</td>
+                    </tr>
+                  {% endif %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-status">{{ entry_status }}</label>
+            <div class="col-sm-10">
+              <select name="status" id="input-status" class="form-control">
+                {% if status %}
+                <option value="1" selected="selected">{{ text_enabled }}</option>
+                <option value="0">{{ text_disabled }}</option>
+                {% else %}
+                <option value="1">{{ text_enabled }}</option>
+                <option value="0" selected="selected">{{ text_disabled }}</option>
+                {% endif %}
+              </select>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+$('input[type="checkbox"]').each(function(e){
+
+  if($(this).attr('value') == 1){
+    $(this).attr("checked", "checked");
+  }
+
+});
+
+$('input[type="checkbox"]').change(function() {
+
+  let values = [];
+
+  $.each($('input[type="checkbox"]:checked'), function(){
+      values.push($(this).attr('id'));
+  });
+
+  $('#hidden').val(values.toString());
+
+});
+</script>
+{{ footer }}

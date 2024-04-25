@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+  <name>GP: Product Partial > Add manufacturer</name>
+  <code>product-grid-manufacturer</code>
+  <version>1.0</version>
+  <author>George Protonotarios</author>
+  <link>https://www.digital4u.gr</link>
+
+  <!-- CART PAGE -->
+
+  <file path="catalog/controller/checkout/cart.php">
+
+    <operation>
+      <search><![CDATA[$data['products'][] = array(]]></search>
+      <add position="before"><![CDATA[
+        $manufacturer_href = $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $result['manufacturer_id']);
+      ]]></add>
+    </operation>
+
+    <operation>
+      <search><![CDATA['cart_id'   => $product['cart_id'],]]></search>
+      <add position="after"><![CDATA[
+        'manufacturer'  => $result['manufacturer'],
+        'manufacturer_href' => $manufacturer_href,
+      ]]></add>
+    </operation>
+
+  </file>
+  
+  <!-- CATEGORY PAGE -->
+
+  <file path="catalog/controller/product/category.php">
+
+    <operation>
+      <search><![CDATA[$data['products'][] = array(]]></search>
+      <add position="before"><![CDATA[
+        $manufacturer_href = $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $result['manufacturer_id']);
+      ]]></add>
+    </operation>
+
+    <operation>
+      <search><![CDATA['rating'      => $result['rating'],]]></search>
+      <add position="after"><![CDATA[
+        'manufacturer'  => $result['manufacturer'],
+        'manufacturer_href' => $manufacturer_href,
+      ]]></add>
+    </operation>
+
+  </file>
+
+  <!-- SEARCH PAGE -->
+
+  <file path="catalog/controller/product/search.php">
+
+    <operation>
+      <search><![CDATA[$data['products'][] = array(]]></search>
+      <add position="before"><![CDATA[
+        $manufacturer_href = $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $result['manufacturer_id']);
+      ]]></add>
+    </operation>
+
+    <operation>
+      <search><![CDATA['rating'      => $result['rating'],]]></search>
+      <add position="after"><![CDATA[
+        'manufacturer'  => $result['manufacturer'],
+        'manufacturer_href' => $manufacturer_href,
+      ]]></add>
+    </operation>
+
+  </file>
+
+  <!-- MANUFACTURER PAGE -->
+
+  <file path="catalog/controller/product/manufacturer.php">
+
+    <operation>
+      <search><![CDATA[$data['products'][] = array(]]></search>
+      <add position="before"><![CDATA[
+        $manufacturer_href = $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $result['manufacturer_id']);
+      ]]></add>
+    </operation>
+
+    <operation>
+      <search><![CDATA['product_id'  => $result['product_id'],]]></search>
+      <add position="after"><![CDATA[
+        'manufacturer'  => $result['manufacturer'],
+        'manufacturer_href' => $manufacturer_href,
+      ]]></add>
+    </operation>
+
+  </file>
+
+  <!-- PRODUCT PAGE > PRODUCT BUNDLES -->
+
+  <file path="catalog/controller/extension/module/productbundles.php">
+
+    <operation>
+      <search><![CDATA[$this->data['bundles'][$bundle['id']]['products'][$product_id] = array(]]></search>
+      <add position="before"><![CDATA[
+        $manufacturer_href = $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $product_info['manufacturer_id']);
+      ]]></add>
+    </operation>
+
+    <operation>
+      <search><![CDATA['product_id' => $product_id,]]></search>
+      <add position="after"><![CDATA[
+        'manufacturer'  => $product_info['manufacturer'],
+        'manufacturer_href' => $manufacturer_href,
+      ]]></add>
+    </operation>
+
+  </file>
+
+  <!-- PRODUCT PAGE > RELATED PRODUCTS -->
+
+  <file path="catalog/controller/product/product.php">
+
+    <operation>
+      <search><![CDATA[$data['products'][] = array(]]></search>
+      <add position="before"><![CDATA[
+        $manufacturer_href = $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $result['manufacturer_id']);
+      ]]></add>
+    </operation>
+
+    <operation>
+      <search><![CDATA['product_id'  => $result['product_id'],]]></search>
+      <add position="after"><![CDATA[
+        'manufacturer'  => $result['manufacturer'],
+        'manufacturer_href' => $manufacturer_href,
+      ]]></add>
+    </operation>
+
+  </file>
+
+  <!-- PRODUCT PAGE > RECENTLY VIEWED -->
+
+  <file path="catalog/controller/extension/module/recently_viewed.php">
+
+    <operation>
+      <search><![CDATA[$data['products'][] = array(]]></search>
+      <add position="before"><![CDATA[
+        $manufacturer_href = $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $result['manufacturer_id']);
+      ]]></add>
+    </operation>
+
+    <operation>
+      <search><![CDATA['product_id'  => $result['product_id'],]]></search>
+      <add position="after"><![CDATA[
+        'manufacturer'  => $result['manufacturer'],
+        'manufacturer_href' => $manufacturer_href,
+      ]]></add>
+    </operation>
+
+  </file>
+  
+  <!-- PRODUCT PAGE > PRODUCTS CAROUSEL -->
+
+  <file path="catalog/controller/extension/module/products_carousel.php">
+
+    <operation>
+      <search><![CDATA[$data['products'][] = array(]]></search>
+      <add position="before"><![CDATA[
+        $manufacturer_href = $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $product_info['manufacturer_id']);
+      ]]></add>
+    </operation>
+
+    <operation>
+      <search><![CDATA['product_id'  => $product_info['product_id'],]]></search>
+      <add position="after"><![CDATA[
+        'manufacturer'  => $product_info['manufacturer'],
+        'manufacturer_href' => $manufacturer_href,
+      ]]></add>
+    </operation>
+
+  </file>
+
+  <!-- BLOG SINGLE > RELATED PRODUCTS -->
+
+  <file path="catalog/controller/extension/d4u/blog.php">
+
+    <operation>
+      <search><![CDATA[$data['blogproducts'][] = array(]]></search>
+      <add position="before"><![CDATA[
+        $manufacturer_href = $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $result['manufacturer_id']);
+      ]]></add>
+    </operation>
+
+    <operation>
+      <search><![CDATA['product_id'  => $result['product_id'],]]></search>
+      <add position="after"><![CDATA[
+        'manufacturer'  => $result['manufacturer'],
+        'manufacturer_href' => $manufacturer_href,
+      ]]></add>
+    </operation>
+
+  </file>
+
+  <!-- MINICART ? -->
+
+  
+
+    <!-- THEME CATALOG TEMPLATES -->
+
+    <file path="catalog/view/theme/digital4u/template/product/{category,manufacturer_info,search,special,product}.twig|catalog/view/theme/digital4u/template/extension/module/{latest,products_carousel,recently_viewed,similar_products_products}.twig|catalog/view/theme/default/template/extension/d4u/blog.twig">
+        <operation>
+            <search><![CDATA[<div class="caption">]]></search>
+            <add position="after"><![CDATA[
+        
+                <div class="manufacturer_link">
+                    {% if product.manufacturer %}
+                        <a href="{{ product.manufacturer_href }}">{{ product.manufacturer }}</a>
+                    {% endif %}
+                </div>
+
+            ]]></add>
+        </operation>
+    </file>
+
+</modification>

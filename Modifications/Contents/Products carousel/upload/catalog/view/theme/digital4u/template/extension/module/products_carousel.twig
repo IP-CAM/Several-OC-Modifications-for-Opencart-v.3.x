@@ -1,0 +1,127 @@
+
+      {% if slides_per_view|default is empty %}
+          {% set slides_per_view = 5 %}
+      {% endif %}
+
+      {% if autoplay |default is empty %}
+          {% set autoplay = 0 %}
+      {% endif %}
+
+      {% if space_between|default is empty %}
+          {% set space_between = 6 %}
+      {% endif %}
+
+      {% if tab_order|default is empty %}
+          {% set tab_order = 0 %}
+      {% endif %}
+
+      {% if custom_title|default is empty %}
+          {% set custom_title = '' %}
+      {% endif %}
+
+      {% if module_classes|default is empty %}
+          {% set module_classes = '' %}
+      {% endif %}
+
+      {% if module_breakpoints|default is empty %}
+          {% set module_breakpoints = 'breakpoints: {768: {slidesPerView: 1.25}}' %}
+      {% endif %}
+
+
+<div class="row products-carousel-module {% if module_classes %}{{ module_classes }}{% endif %}" style="width:{{ contwidth }}%;">
+  <div class="section_title">{{ custom_title }}</div>
+
+  
+
+  <div class="row">
+
+    <div class="carousel swiper-viewport">
+      <div id="products_carousel_{{ module }}" class="swiper-container">
+        <div class="swiper-wrapper">
+
+          {% for product in products %}
+
+          <div class="swiper-slide text-center">
+
+            <div class="product-layout">
+              <div class="product-thumb transition">
+                    <div class="image"><a href="{{ product.href }}"><img src="{{ product.thumb }}" width="{{ product.width }}" height="{{ product.height}}" alt="{{ product.name }}" title="{{ product.name }}" class="img-responsive" /></a></div>
+                    <div class="caption">
+                        <h4><a href="{{ product.href }}">{{ product.name }}</a></h4>
+
+                        {# <p>{{ product.description }}</p> #}
+
+                        <div class="rating_container">
+                            {% if product.rating %}
+                            <div class="rating"> {% for i in 1..5 %}
+                            {% if product.rating < i %} <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> {% else %} <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span>{% endif %}
+                            {% endfor %} </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="bottom_section">
+
+                            {% if product.price %}
+                                <div class="price"> {% if not product.special %}
+                                {{ product.price }}
+                                {% else %} <span class="price-new">{{ product.special }}</span> <span class="price-old">{{ product.price }}</span> {% endif %}
+                                {% if product.tax %} <span class="price-tax">{{ text_tax }} {{ product.tax }}</span> {% endif %} </div>
+                            {% endif %}
+
+                            <div class="button-group">
+                                <button type="button" title="{{ button_compare }}" onclick="compare.add('{{ product.product_id }}');"><img src="/catalog/view/theme/digital4u/stylesheet/svg/ICON-COMPARE.svg" width="22px" height="22px" alt="comp-icon"/></button>
+                                <button type="button" title="{{ button_wishlist }}" onclick="wishlist.add('{{ product.product_id }}');"><img src="/catalog/view/theme/digital4u/stylesheet/svg/ICON-FAV.svg" width="22px" height="22px" alt="fac-icon"/></button>
+                                <button type="button" onclick="cart.add('{{ product.product_id }}');"><img src="/catalog/view/theme/digital4u/stylesheet/svg/ICON-CART.svg" width="22px" height="22px" alt="cart-icon"/></button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            </div>
+
+          {% endfor %}
+
+          </div>
+        </div>
+
+        {# <div class="swiper-pagination carousel{{ module }}"></div> #}
+        <div class="swiper-pager">
+          <div class="swiper-button-next swiper-button-next_products_carousel_{{ module }}"></div>
+          <div class="swiper-button-prev swiper-button-prev_products_carousel_{{ module }}"></div>
+        </div>
+
+         {% if view_more|default is empty %}
+        {% else %}
+            <a class="view_more" href="{{ view_more }}">{{ view_more_text }}</a>
+        {% endif %}
+    </div>
+
+  </div>
+
+ 
+
+</div>
+
+
+<script type="text/javascript">
+$( document ).ready(function() {
+  $('#products_carousel_{{ module }}').swiper({
+    mode: 'horizontal',
+    slidesPerView: {{ slides_per_view }},
+    autoplay: {{ autoplay }}, 
+    spaceBetween: {{ space_between }},
+    pagination: '.carousel{{ module }}',
+    paginationClickable: true,
+    {% if module_breakpoints %}
+      {{ module_breakpoints }},
+    {% endif %}
+    nextButton: '.swiper-button-next_products_carousel_{{ module }}',
+    prevButton: '.swiper-button-prev_products_carousel_{{ module }}'
+  });
+});
+</script>
+
+
+

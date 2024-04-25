@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+    <name>Design Layout drag-and-drop sortin</name>
+    <code>layout-sortin</code>
+    <version>1.0</version>
+    <author>Focus Style</author>
+    <link>https://focus.style</link>
+    <file path="admin/view/template/design/layout_form.twig">
+        <operation>
+            <search><![CDATA[{{ footer }}]]></search>
+            <add position="before"><![CDATA[
+        <script> 
+        $('table[id^="module"] [data-toggle="tooltip"]').attr('data-toggle','');
+        </script>
+        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+        <script>
+        $("table[id^='module'] tbody").sortable({
+          placeholder: "ui-state-highlight",
+          connectWith: "table[id^='module'] tbody",
+          cursor:"move",
+          start:function(){
+          },
+          stop: function( event, ui ) {   
+            refreshTables();     
+          }  
+        });
+
+        $("table[id^='module'] tfoot button").click(function() {
+          $("table[id^='module'] tbody").sortable( "refresh" );
+          refreshTables();  
+        });
+
+        $(document).ready(function() {
+          $("table[id^='module'] tbody").sortable( "refresh" );
+          refreshTables();  
+        });
+
+        function refreshTables() {
+          var trCount = 0;
+          $("table[id^='module'] tbody tr.ui-sortable-handle").each(function() {
+            $(this).attr('id','module-row' + trCount);
+            $(this).find('select:nth-child(1)').attr('name','layout_module['+trCount+'][code]');
+            $(this).find('input:nth-child(2)').attr('name','layout_module['+trCount+'][position]');
+            $(this).find('input:nth-child(3)').attr('name','layout_module['+trCount+'][sort_order]');    
+            $(this).find('button').attr('onclick','$("#module-row'+trCount+'").remove(); refreshTables();');   
+            trCount++;
+          });     
+
+          $("table[id^='module'] tbody").each(function() {
+            var localTrCount = 0;
+            $(this).find('tr.ui-sortable-handle').each(function() {
+              $(this).find('input:nth-child(3)').attr('value', localTrCount);      
+              localTrCount++;
+              
+              var tableId = $(this).closest('table').attr('id').replace('module-', '').replace('-', '_');
+              $(this).find('input:nth-child(2)').attr('value', tableId);
+              
+            });
+          });
+        }
+
+        </script>
+        <style>
+        table[id^='module'] tbody tr {
+          cursor: move;
+        }
+        table[id^='module'] tbody tr td {
+          display: block; border: 0; padding-left: 30px; position: relative;
+        }
+        table[id^='module'] tbody tr.ui-sortable-handle td:before {
+          content: "\f047";
+          display: inline-block;
+          font: normal normal normal 14px/1 FontAwesome;
+          font-size: inherit;
+          text-rendering: auto;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+          position: absolute;
+          left: 8px;
+          top: 16px;
+        }
+        </style>
+        ]]>            </add>
+        </operation>
+    </file>
+</modification>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+  <name>GP NB: Category page > Add subcategory images</name>
+  <code>category-add-subcategory-images</code>
+  <version>1.0</version>
+  <author>George Protonotarios Nikolas Branis</author>
+  <link>https://www.digital4u.gr</link>
+
+	<file path="catalog/controller/product/category.php">
+        <operation error="skip">
+			<search index="0"><![CDATA[foreach ($results as $result) {]]></search>
+			<add position="after"><![CDATA[
+                $image = "";
+
+				if ($result['image']) {
+					$image = $this->model_tool_image->resize($result['image'], 600, 750);
+				}
+
+                $result['image'] = $image;
+			]]></add>
+        </operation>
+        <operation error="skip">
+            <search><![CDATA['name' => $result['name'] . ($this->config->get('config_product_count') ? ' (' . $this->model_catalog_product->getTotalProducts($filter_data) . ')' : ''),]]></search>
+			<add position="after"><![CDATA[
+                'image' => $image,
+			]]></add>
+		</operation>
+	</file>
+
+
+    <!-- show image for subcategories case:CAROUSEL -->
+
+    <!-- {% if categories %}
+            <div class="row subcategories_section">
+                <div class="carousel swiper-viewport">
+                    <div id="subcategories_carousel" class="swiper-container">
+                        <div class="swiper-wrapper">
+                            {% for category in categories %}
+                                <div class="swiper-slide">
+                                    <a href="{{ category.href }}">
+                                        
+                                        {% if category.image  %}
+                                            <div>
+                                                <img src="{{ category.image }}" alt="{{ category.name }}" title="{{ category.name }}" class="img-thumbnail"/>
+                                            </div>
+                                        {% endif %}
+                                    
+                                        <span>{{ category.name }}</span>
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="swiper-pager">
+                            <div class="swiper-button-next swiper-button-next_subcategories_carousel"></div>
+                            <div class="swiper-button-prev swiper-button-prev_subcategories_carousel"></div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <script type="text/javascript">
+            $( document ).ready(function() {
+                $('#subcategories_carousel').swiper({
+                    mode: 'horizontal',
+                    slidesPerView: 8,
+                    autoplay: 0, 
+                    spaceBetween: 0,
+                    paginationClickable: true,
+                    breakpoints: {768: {slidesPerView: 1.25}},
+                    nextButton: '.swiper-button-next_subcategories_carousel',
+                    prevButton: '.swiper-button-prev_subcategories_carousel',
+                    breakpoints: {1650: {slidesPerView: 6, spaceBetween: 0}, 1400: {slidesPerView: 5, spaceBetween: 0}, 768: {slidesPerView:4, spaceBetween:0}, 550: {slidesPerView:2, spaceBetween:0}}
+                });
+            });
+            </script>
+        {% endif %}-->
+
+
+    <!-- show image for subcategories case:GRID -->
+
+    <file path="catalog/view/theme/digital4u/template/product/category.twig">
+        <operation error="skip">
+            <search><![CDATA[<div id="content" class="col-sm-9">{{ content_top }}]]></search>
+            <add position="after"><![CDATA[
+                {% if categories %}
+                    <div class="subcategories_on_display">
+                        {% for category in categories %}
+                            <a href="{{ category.href }}">
+                                {% if category.image  %}
+                                    <div>
+                                        <img src="{{ category.image }}" alt="{{ category.name }}" title="{{ category.name }}" class="img-thumbnail"/>
+                                    </div>
+                                {% endif %}
+                                <div>{{ category.name }}</div>
+                            </a>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            ]]></add>
+        </operation>
+    </file>
+
+
+</modification>

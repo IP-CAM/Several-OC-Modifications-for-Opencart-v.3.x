@@ -1,0 +1,40 @@
+{% set counter = 0 %}
+<div class="module_row_section">
+    <div class="section_title">
+        {{ tabs_title }}
+    </div> 
+    <div class="columns-container">
+        {% for module in modules %}
+            {% set counter = counter + 1 %}
+            <div class="column-content-{{ counter }}">
+                {{ module.tab_data }}
+            </div>
+        {% endfor %}
+    </div>
+</div> 
+
+<style>
+.module_row_section {
+    width: 100%;
+    margin: auto;
+    {% if background_image %}
+        background-image: url({{background_image}}); 
+        background-size: cover;
+        height: {{ height }}px;
+        background-position: center center;
+        background-repeat: no-repeat;
+    {% endif %}
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    gap: 40px;
+}
+
+.module_row_section .columns-container {
+    padding: 40px;
+	display: grid;
+	grid-template-columns: {% for i in range(1, counter) %}1fr {% endfor %};
+    gap: 40px;
+}
+</style>

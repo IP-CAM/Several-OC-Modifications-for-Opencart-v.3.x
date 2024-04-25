@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+  <name>4 Add Sales Badge Products</name>
+  <code>module-sales-badge</code>
+  <version>1.0</version>
+  <author>T.Kostoulas</author>
+  <link>https://www.digital4u.gr</link>
+  <!-- file path="catalog/controller/extension/module/productbundles.php">
+    <operation>
+      <search><![CDATA[                            $special = $this->currency->format($this->tax->calculate($product_info['special'], $product_info['tax_class_id'], $this->config->get('config_tax')), $this->currency_code);]]></search>
+      <add position="after"><![CDATA[
+                            $tk_precent_special = ((float)$special * 100)/(float)$price;
+                            $tk_precent_special = round($tk_precent_special, 0);
+                            $tk_precent_special = 100 - (float)$tk_precent_special;
+                            $tk_precent_special = '<span>-'.$tk_precent_special.'%</span>';
+      ]]></add>
+    </operation>
+    <operation>
+      <search><![CDATA[                            $total_price += $this->tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax'));]]></search>
+      <add position="before"><![CDATA[                            $tk_precent_special = '';]]></add>
+    </operation>
+    <operation>
+      <search><![CDATA[$this->data['bundles'][$bundle['id']]['products'][$product_id] = array(]]></search>
+      <add position="after"><![CDATA[                            'tk_precent_special' => $tk_precent_special,]]></add>
+    </operation>
+  </file -->
+    <file path="catalog/controller/extension/module/products_carousel.php">
+    <operation>
+      <search><![CDATA[$tax_price = (float)$product_info['special'];]]></search>
+      <add position="after"><![CDATA[
+      $tk_precent_special = '<span>-' . round((str_replace(",", ".", $price) - str_replace(",", ".", $special)) / str_replace(",", ".", $price) * 100, 0) . ' %</span>';
+      ]]></add>
+    </operation>
+    <operation>
+      <search><![CDATA[$tax_price = (float)$product_info['price'];]]></search>
+      <add position="after"><![CDATA[
+      $tk_precent_special = '';
+      ]]></add>
+    </operation>
+    <operation>
+      <search><![CDATA['special'     => $special,]]></search>
+      <add position="after"><![CDATA[
+      'tk_precent_special'     => $tk_precent_special,
+      ]]></add>
+    </operation>
+   </file>
+  <!-- <file path="catalog/controller/checkout/cart.php">-->
+  <!--  <operation>-->
+  <!--    <search><![CDATA[$recurring = '';]]></search>-->
+  <!--    <add position="before"><![CDATA[-->
+  <!--      $product_info = $this->model_catalog_product->getProduct($product['product_id']);-->
+
+  <!--      $initial = $this->currency->format($this->tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']);-->
+        
+  <!--      $tk_precent_special = ((float)$product['price'] * 100)/(float)$initial;-->
+  <!--      $tk_precent_special = round($tk_precent_special, 0);-->
+  <!--      $tk_precent_special = 100 - (float)$tk_precent_special;-->
+  <!--      $tk_precent_special = '<span>-'.$tk_precent_special.'%</span>';-->
+  <!--    ]]></add>-->
+  <!--  </operation>-->
+  <!--  <operation>-->
+  <!--    <search><![CDATA[$data['products'][] = array(]]></search>-->
+  <!--    <add position="after"><![CDATA[-->
+  <!--    'tk_precent_special'      => $tk_precent_special,-->
+  <!--    ]]></add>-->
+  <!--  </operation>-->
+  <!-- </file>-->
+  <!-- <file path="catalog/view/theme/digital4u/template/checkout/cart.twig">-->
+  <!--  <operation>-->
+  <!--    <search><![CDATA[<div class='labels_container'>]]></search>-->
+  <!--    <add position="after"><![CDATA[-->
+  <!--    {% if product.tk_precent_special %}-->
+  <!--      <div class="label_sale">{{ product.tk_precent_special }}</div>-->
+  <!--    {% endif %}-->
+  <!--    ]]></add>-->
+  <!--  </operation>-->
+  <!--</file>-->
+  <file path="catalog/controller/extension/module/{bestseller,latest,special}.php">
+    <operation>
+      <search><![CDATA[$tax_price = (float)$result['special'];]]></search>
+      <add position="after"><![CDATA[
+      $tk_precent_special = ((float)$special * 100)/(float)$price;
+      $tk_precent_special = round($tk_precent_special, 0);
+      $tk_precent_special = 100 - (float)$tk_precent_special;
+      $tk_precent_special = '<span>-'.$tk_precent_special.'%</span>';
+      ]]></add>
+    </operation>
+    <operation>
+      <search><![CDATA[$tax_price = (float)$result['price'];]]></search>
+      <add position="after"><![CDATA[
+      $tk_precent_special = '';
+      ]]></add>
+    </operation>
+    <operation>
+      <search><![CDATA['special'     => $special,]]></search>
+      <add position="after"><![CDATA[
+      'tk_precent_special'     => $tk_precent_special,
+      ]]></add>
+    </operation>
+   </file>
+   <file path="catalog/controller/product/{category,compare,manufacturer,search,special}.php">
+    <operation>
+      <search><![CDATA[$tax_price = (float)$result['special'];]]></search>
+      <add position="after"><![CDATA[
+      $tk_precent_special = '<span>-' . round((str_replace(",", ".", $price) - str_replace(",", ".", $special)) / str_replace(",", ".", $price) * 100, 0) . ' %</span>';
+      ]]></add>
+    </operation>
+    <operation>
+      <search><![CDATA[$tax_price = (float)$result['price'];]]></search>
+      <add position="after"><![CDATA[
+      $tk_precent_special = '';
+      ]]></add>
+    </operation>
+    <operation>
+      <search><![CDATA['special'     => $special,]]></search>
+      <add position="after"><![CDATA[
+      'tk_precent_special'     => $tk_precent_special,
+      ]]></add>
+    </operation>
+   </file>
+   <file path="catalog/controller/extension/module/featured.php">
+    <operation>
+      <search><![CDATA[$tax_price = (float)$product_info['special'];]]></search>
+      <add position="after"><![CDATA[
+      $tk_precent_special = '<span>-' . round((str_replace(",", ".", $price) - str_replace(",", ".", $special)) / str_replace(",", ".", $price) * 100, 0) . ' %</span>';
+      ]]></add>
+    </operation>
+    <operation>
+      <search><![CDATA[$tax_price = (float)$product_info['price'];]]></search>
+      <add position="after"><![CDATA[
+      $tk_precent_special = '';
+      ]]></add>
+    </operation>
+    <operation>
+      <search><![CDATA['special'     => $special,]]></search>
+      <add position="after"><![CDATA[
+      'tk_precent_special'     => $tk_precent_special,
+      ]]></add>
+    </operation>
+  </file> 
+  <file path="catalog/controller/extension/module/recently_viewed.php">
+    <operation>
+      <search><![CDATA[if ((float)$result['special']) {]]></search>
+      <add position="after"><![CDATA[
+      $rec_special = $result['special'];
+      $rec_price = $result['price'];
+      $tk_precent_special = ((float)$rec_special * 100)/(float)$rec_price;
+      $tk_precent_special = round($tk_precent_special, 0);
+      $tk_precent_special = 100 - (float)$tk_precent_special;
+      $tk_precent_special = '<span>-'.$tk_precent_special.'%</span>';
+      ]]></add>
+    </operation>
+    <operation>
+      <search><![CDATA[$special = false;]]></search>
+      <add position="after"><![CDATA[
+      $tk_precent_special = '';
+      ]]></add>
+    </operation>
+    <operation>
+      <search><![CDATA['special'     => $special,]]></search>
+      <add position="after"><![CDATA[
+      'tk_precent_special'     => $tk_precent_special,
+      ]]></add>
+    </operation>
+  </file>
+  <file path="catalog/controller/extension/d4u/blog.php">
+    <operation>
+      <search><![CDATA[if ((float)$result['special']) {]]></search>
+      <add position="after"><![CDATA[
+      $rec_special = $result['special'];
+      $rec_price = $result['price'];
+      $tk_precent_special = ((float)$rec_special * 100)/(float)$rec_price;
+      $tk_precent_special = round($tk_precent_special, 0);
+      $tk_precent_special = 100 - (float)$tk_precent_special;
+      $tk_precent_special = '<span>-'.$tk_precent_special.'%</span>';
+      ]]></add>
+    </operation>
+    <operation>
+      <search><![CDATA[$special = false;]]></search>
+      <add position="after"><![CDATA[
+      $tk_precent_special = '';
+      ]]></add>
+    </operation>
+    <operation>
+      <search><![CDATA['special'     => $special,]]></search>
+      <add position="after"><![CDATA[
+      'tk_precent_special'     => $tk_precent_special,
+      ]]></add>
+    </operation>
+  </file>
+  <file path="catalog/controller/extension/module/similar_products.php">
+    <operation>
+      <search><![CDATA[if ((float)$result['special']) {]]></search>
+      <add position="after"><![CDATA[
+      $rec_special = $result['special'];
+      $rec_price = $result['price'];
+      $tk_precent_special = ((float)$rec_special * 100)/(float)$rec_price;
+      $tk_precent_special = round($tk_precent_special, 0);
+      $tk_precent_special = 100 - (float)$tk_precent_special;
+      $tk_precent_special = '<span>-'.$tk_precent_special.'%</span>';
+      ]]></add>
+    </operation>
+    <operation>
+      <search><![CDATA[$special = false;]]></search>
+      <add position="after"><![CDATA[
+      $tk_precent_special = '';
+      ]]></add>
+    </operation>
+    <operation>
+      <search><![CDATA['special'    => $special,]]></search>
+      <add position="after"><![CDATA[
+      'tk_precent_special'     => $tk_precent_special,
+      ]]></add>
+    </operation>
+  </file>
+  <file path="catalog/controller/product/product.php">
+    <operation>
+      <search><![CDATA[$tax_price = (float)$product_info['special'];]]></search>
+      <add position="after"><![CDATA[
+      $pd_special = $product_info['special'];
+      $pd_price = $product_info['price']; 
+      $tk_precent_special = ((float)$pd_special * 100)/(float)$pd_price;
+      $tk_precent_special = round($tk_precent_special, 0);
+      $tk_precent_special = 100 - (float)$tk_precent_special;
+      $tk_precent_special = '<span>-'.$tk_precent_special.'%</span>';
+      ]]></add>
+    </operation>
+    <operation>
+      <search><![CDATA[$tax_price = (float)$product_info['price'];]]></search>
+      <add position="after"><![CDATA[
+      $tk_precent_special = '';
+      ]]></add>
+    </operation>
+    <operation>
+      <search><![CDATA[$data['options'] = array();]]></search>
+      <add position="after"><![CDATA[
+      $data['tk_precent_special_single'] = $tk_precent_special;
+      ]]></add>
+    </operation>
+    <operation>
+      <search><![CDATA[$tax_price = (float)$result['special'];]]></search>
+      <add position="after"><![CDATA[
+      $rel_special = $result['special'];
+      $rel_price = $result['price'];  
+      $tk_precent_special_rel = ((float)$rel_special * 100)/(float)$rel_price;
+      $tk_precent_special_rel = round($tk_precent_special_rel, 0);
+      $tk_precent_special_rel = 100 - (float)$tk_precent_special_rel;
+      $tk_precent_special_rel = '-'.$tk_precent_special_rel.'%';
+      ]]></add>
+    </operation>
+    <operation>
+      <search><![CDATA[$tax_price = (float)$result['price'];]]></search>
+      <add position="after"><![CDATA[
+      $tk_precent_special_rel = '';
+      ]]></add>
+    </operation>
+    <operation>
+      <search><![CDATA['special'     => $special,]]></search>
+      <add position="after"><![CDATA[
+      'tk_precent_special'     => $tk_precent_special_rel,
+      ]]></add>
+    </operation>
+  </file>
+  <!-- file path="catalog/view/theme/default/template/extension/module/productbundles/productbundles.twig">
+    <operation>
+      <search><![CDATA[<div class='labels_container'>]]></search>
+      <add position="after"><![CDATA[
+      {% if product.tk_precent_special %}
+        <div class="label_sale">{{ product.tk_precent_special }}</div>
+      {% endif %}
+      ]]></add>
+    </operation>
+  </file -->
+  <file path="catalog/view/theme/*/template/extension/module/*.twig">
+    <operation>
+      <search><![CDATA[<div class='labels_container'>]]></search>
+      <add position="after"><![CDATA[
+      {% if product.tk_precent_special %}
+        <div class="label_sale">{{ product.tk_precent_special }}</div>
+      {% endif %}
+      ]]></add>
+    </operation>
+  </file>
+  <file path="catalog/view/theme/digital4u/template/extension/d4u/blog.twig">
+    <operation>
+      <search><![CDATA[<div class='labels_container'>]]></search>
+      <add position="after"><![CDATA[
+      {% if product.tk_precent_special %}
+        <div class="label_sale">{{ product.tk_precent_special }}</div>
+      {% endif %}
+      ]]></add>
+    </operation>
+  </file>
+  <file path="catalog/view/theme/*/template/product/*.twig">
+    <operation>
+      <search><![CDATA[<div class='labels_container'>]]></search>
+      <add position="after"><![CDATA[
+      {% if product.tk_precent_special %}
+        <div class="label_sale">{{ product.tk_precent_special }}</div>
+      {% endif %}
+      ]]></add>
+    </operation>
+    <operation>
+      <search><![CDATA[<div class='labels_container main-product-label'>]]></search>
+      <add position="after"><![CDATA[
+      {% if tk_precent_special_single %}
+        <div class="label_sale">{{ tk_precent_special_single }}</div>
+      {% endif %}
+      ]]></add>
+    </operation>
+  </file>
+</modification>

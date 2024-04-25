@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+    <id><![CDATA[[OCMOD] Admin > Extensions > Modifications, limit 100]]></id>
+    <name><![CDATA[[OCMOD] Admin > Extensions > Modifications, limit 100]]></name>
+    <code>knns-admin-extensions-modifications-limit-100</code>
+    <version>0.1.0</version>
+    <author><![CDATA[<font color="#7F458C"><b>kanenas.net (aka Nikolas Branis)</b></font> - nbran@kanenas.net]]></author>
+    <link>https://kanenas.net/</link>
+    <file path="admin/controller/marketplace/modification.php" error="log">
+        <operation error="skip">
+            <search><![CDATA[$this->config->get('config_limit_admin')]]></search>
+            <add position="replace"><![CDATA[100]]></add>
+        </operation>
+    </file>
+</modification>

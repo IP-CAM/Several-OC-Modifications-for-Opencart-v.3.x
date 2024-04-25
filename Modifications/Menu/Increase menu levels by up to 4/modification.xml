@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+  <name>Add new Menu Categories Level</name>
+  <code>add-new-menu-categories-level</code>
+  <version>1.0</version>
+  <author>T.Kostoulas</author>
+  <link>https://www.digital4u.gr</link>
+  <file path="catalog/controller/common/menu.php">
+    <operation>
+      <search><![CDATA[foreach ($children as $child) {]]></search>
+      <add position="after"><![CDATA[
+		$children_ch_data = array();
+		$children_of_children = array();
+		$children_of_children = $this->model_catalog_category->getCategories($child['category_id']);
+
+		foreach ($children_of_children as $child_child) {
+
+            $children_ch_ch_data = array();
+            $children_of_children_of_children = $this->model_catalog_category->getCategories($child_child['category_id']);
+
+            foreach ($children_of_children_of_children as $child_child_child) {
+                $filter_data_ch_ch = array(
+                    'filter_category_id'  => $child_child_child['category_id'],
+                    'filter_sub_category' => true
+                );
+
+                $children_ch_ch_data[] = array(
+                    'name'  => $child_child_child['name'] . ($this->config->get('config_product_count') ? ' (' . $this->model_catalog_product->getTotalProducts($filter_data_ch_ch) . ')' : ''),
+                    'href'  => $this->url-> link('product/category', 'path=' . $child['category_id'] . '_' . $child_child['category_id'] . '_' . $child_child_child['category_id'])
+                );
+            }
+
+			$filter_data_ch = array(
+				'filter_category_id'  => $child_child['category_id'],
+				'filter_sub_category' => true
+			);
+
+			$children_ch_data[] = array(
+                'name'  => $child_child['name'] . ($this->config->get('config_product_count') ? ' (' . $this->model_catalog_product->getTotalProducts($filter_data) . ')' : ''),
+                'href'  => $this->url-> link('product/category', 'path=' . $child['category_id'] . '_' . $child_child['category_id']),
+                'children' => $children_ch_ch_data
+            );
+
+		}
+      ]]></add>
+    </operation>
+    <operation>
+      <search><![CDATA['href'  => $this->url-> link('product/category', 'path=' . $category['category_id'] . '_' . $child['category_id'])]]></search>
+      <add position="replace"><![CDATA[
+            'href'  => $this->url-> link('product/category', 'path=' . $category['category_id'] . '_' . $child['category_id']),
+            'children' => $children_ch_data
+        ]]></add>
+    </operation>
+  </file>
+</modification>

@@ -1,0 +1,64 @@
+
+/*    -->                                                       PRODUCT PAGE > MODEL & STOCK SECTION                     
+[2]   =========================================================================================================== */
+
+.model_n_stock_section {
+  display: flex;
+  justify-content: flex-start;
+  margin: 15px 0px;
+  gap: 40px 70px;
+  flex-wrap: wrap;
+}
+
+.model_n_stock_section * {
+  font-size: 14px;
+  line-height: normal;
+}
+
+/*    -->  PRODUCT PAGE > MODEL & STOCK SECTION > MODEL                             
+[3]   ------------------------------------------------------------- */
+
+.model_n_stock_section>.model_content * {
+  font-weight: bold;
+}
+
+.model_n_stock_section>.model_content>span+span {
+  margin-left: 5px;
+}
+
+/*    -->  PRODUCT PAGE > MODEL & STOCK SECTION > STOCK                             
+[3]   ------------------------------------------------------------- */
+
+
+.stock_content div[class*="knns-stock-status"] {
+  display: flex;
+  align-items: center;
+}
+
+.stock_content div[class*="knns-stock-status"]:before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+  background: black;
+  display: block;
+  margin-right: 7px;
+}
+
+div.knns-stock-status-9:before,
+div.knns-stock-status-8:before,
+div.knns-stock-status-7:before {
+  background: #2DA134 !important;
+}
+
+div.knns-stock-status-6:before {
+  background: #f1c24c !important;
+}
+
+div.knns-stock-status-5:before {
+  background: #b03434 !important;
+}
+
+div.knns-stock-status-10:before {
+  background: orange !important;
+}

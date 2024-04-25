@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+	<name>Add account and language functionality to menu</name>
+	<code>add-account-language-functionality-to-menu</code>
+	<version>1.0.0</version>
+	<author>digital4u (Nikolas Branis)</author>
+	<link>https://www.digital4u.gr/</link>
+	<file path="catalog/controller/common/menu.php">
+		<operation>
+			<search><![CDATA[return $this->load->view('common/menu', $data);]]></search>
+			<add position="before"><![CDATA[
+			
+		$data['language'] = $this->load->controller('common/language');
+			
+		$data['text_logged'] = sprintf($this->language->get('text_logged'), $this->url->link('account/account', '', true), $this->customer->getFirstName(), $this->url->link('account/logout', '', true));
+
+		$data['home'] = $this->url->link('common/home');
+		$data['wishlist'] = $this->url->link('account/wishlist', '', true);
+		$data['logged'] = $this->customer->isLogged();
+		$data['account'] = $this->url->link('account/account', '', true);
+		$data['register'] = $this->url->link('account/register', '', true);
+		$data['login'] = $this->url->link('account/login', '', true);
+		$data['order'] = $this->url->link('account/order', '', true);
+		$data['transaction'] = $this->url->link('account/transaction', '', true);
+		$data['download'] = $this->url->link('account/download', '', true);
+		$data['logout'] = $this->url->link('account/logout', '', true);
+		$data['shopping_cart'] = $this->url->link('checkout/cart');
+		$data['checkout'] = $this->url->link('checkout/checkout', '', true);
+		$data['contact'] = $this->url->link('information/contact');
+		$data['telephone'] = $this->config->get('config_telephone');
+			]]></add>
+		</operation>
+	</file>
+</modification>
