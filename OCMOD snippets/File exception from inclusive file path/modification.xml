@@ -1,0 +1,9 @@
+<file path="catalog/controller/product/*.php">
+		<operation>
+			<search><![CDATA[function index(]]></search>
+			<ignoreif>ControllerProductManufacturer</ignoreif>
+			<add position="after"><![CDATA[
+				$this->log->write('test');
+			]]></add>
+		</operation>
+</file>
