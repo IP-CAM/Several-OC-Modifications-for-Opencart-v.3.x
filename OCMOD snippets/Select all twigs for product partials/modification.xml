@@ -1,1 +1,15 @@
 
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+  <name></name>
+  <code></code>
+  <version></version>
+  <author></author>
+  <link></link>
+  <file path="catalog/view/theme/digital4u/template/product/{category,manufacturer_info,search,special,product}.twig|catalog/view/theme/digital4u/template/extension/module/{latest,products_carousel,recently_viewed,similar_products_products,featured}.twig|catalog/view/theme/default/template/extension/d4u/blog.twig">
+    <operation>
+      <search><![CDATA[]]></search>
+      <add position=""><![CDATA[]]></add>
+    </operation>
+  </file>
+</modification>
