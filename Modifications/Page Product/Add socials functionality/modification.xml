@@ -6,8 +6,10 @@
   <author>George Protonotarios</author>
   <link>https://www.digital4u.gr/</link>
   
-  
-  <file path="catalog/controller/common/header.php">
+
+<!-- ONLY ADD THIS IF THERE IS NO CONTENDING MODIFICATION SUCH AS "ADD CLASS TO HTML TAG" -->
+	
+<!--   <file path="catalog/controller/common/header.php">
     <operation>
       <search><![CDATA[return $this->load->view('common/header', $data);]]></search>
       <add position="before"><![CDATA[
@@ -23,7 +25,7 @@
 		
 		  ]]></add>
     </operation>
-  </file>
+  </file> -->
         
   
     <file path="catalog/view/theme/digital4u/template/common/header.twig">
