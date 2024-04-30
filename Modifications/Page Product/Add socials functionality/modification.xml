@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+  <name>GP: Product page > Share</name>
+  <code>product-page-share</code>
+  <version>1.0</version>
+  <author>George Protonotarios</author>
+  <link>https://www.digital4u.gr/</link>
+  
+  
+  <file path="catalog/controller/common/header.php">
+    <operation>
+      <search><![CDATA[return $this->load->view('common/header', $data);]]></search>
+      <add position="before"><![CDATA[
+        
+        if (isset($this->request->get['route'])) {
+			$route = (string)$this->request->get['route'];
+			$route_class = str_replace('/', '-', $route);
+			$data['routeClass'] = $route_class;
+		} else {
+			$route = 'common/home';
+			$data['routeClass'] = "home";
+		}
+		
+		  ]]></add>
+    </operation>
+  </file>
+        
+  
+    <file path="catalog/view/theme/digital4u/template/common/header.twig">
+        <operation>
+        <search><![CDATA[ </head> ]]></search>
+        <add position="before"><![CDATA[
+        
+        
+            
+            {% if ( routeClass == "product-product") %}
+            
+                <!-- SHARE BUTTON > FUNCTIONALITY -->
+    
+                <link rel="stylesheet" href="custom_plugins/social_share_js/social-share.min.css">
+                <script src="custom_plugins/social_share_js/social-share.min.js"></script>
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+                
+                <style>
+                    
+                    /*    -->                                                             PRODUCT PAGE > SHARE
+                    [2]   =========================================================================================================== */
+                    
+                    .share_container{
+                      width:fit-content;
+                      margin-left:auto;
+                      margin-top: 50px;
+                      margin-bottom: 20px;
+                      margin-right: 25px;
+                      z-index: 2;
+                      position: relative;
+                    }
+                    
+                    /*    -->                                                       PRODUCT PAGE > LABELS AND SHARE CONTAINER > SHARE                          
+                    [2]   =========================================================================================================== */
+                    
+                    .share_module_container {
+                      width: 263px;
+                      position: absolute;
+                      right: 0px;
+                      top: 100%;
+                      transform: translateY(5px);
+                      padding-top: 15px;
+                      transition: all 0.2s;
+                      opacity: 0;
+                      visibility: hidden;
+                    }
+                    
+                    .ss-box {
+                      padding: 7px;
+                      box-sizing: content-box;
+                      background: #eee;
+                      position: relative;
+                      box-shadow: 0 20px 20px rgba(0, 0, 0, 0.3);
+                    }
+                    
+                    .ss-box::after {
+                    	content: "";
+                    	width: 0;
+                    	height: 0;
+                    	border-width: 15px 15px 0px 15px;
+                    	border-color: #eee transparent transparent transparent;
+                    	border-style: solid;
+                    	position: absolute;
+                    	bottom: 100%;
+                    	/* right: 6px; */
+                    	transform: rotate(180deg) translateY(100%);
+                    	top: 0px;
+                    	right: 10px !important;
+                    	left: auto;
+                    }
+                    
+                    .share_section .title {
+                      display: inline-block;
+                      /* padding: 20px 0px 0px; */
+                      position: relative !important;
+                      display: flex;
+                      align-items: center;
+                      font-weight: 600;
+                      cursor: default;
+                    }
+                    
+                    .share_section .title>svg {
+                      margin-right: 8px;
+                    }
+                    
+                    .share_section .title:hover .share_module_container {
+                      opacity: 1;
+                      visibility: visible;
+                      transform: translateY(0px);
+                    }
+                    
+                </style>
+                
+            {% endif %}   
+            
+          ]]></add>
+      </operation>
+  </file>
+  
+  <file path="catalog/view/theme/digital4u/template/product/product.twig">
+        <operation>
+        <search><![CDATA[<!-- SOCIALS GO HERE -->]]></search>
+        <add position="replace"><![CDATA[
+            
+        <div class="share_container">
+            <div class="share_section">
+                <div class="title">
+                <div class="share_module_container"><div class="ss-box ss-circle" data-ss-content="false"></div></div>
+                <svg style="width: 20px; height: 20px" class="svg-inline--fa fa-share-alt fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="share-alt" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M352 320c-22.608 0-43.387 7.819-59.79 20.895l-102.486-64.054a96.551 96.551 0 0 0 0-41.683l102.486-64.054C308.613 184.181 329.392 192 352 192c53.019 0 96-42.981 96-96S405.019 0 352 0s-96 42.981-96 96c0 7.158.79 14.13 2.276 20.841L155.79 180.895C139.387 167.819 118.608 160 96 160c-53.019 0-96 42.981-96 96s42.981 96 96 96c22.608 0 43.387-7.819 59.79-20.895l102.486 64.054A96.301 96.301 0 0 0 256 416c0 53.019 42.981 96 96 96s96-42.981 96-96-42.981-96-96-96z"></path></svg>
+                <span>SHARE<span></div>
+            </div>
+         </div>
+            
+          ]]></add>
+      </operation>
+  </file>
+  
+  
+</modification>
