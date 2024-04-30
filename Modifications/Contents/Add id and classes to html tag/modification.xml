@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+  <name>__GP: Header > Html class page identifier (tk-edit)</name>
+  <code>page-identifier</code>
+  <version>1.0</version>
+  <author>George Protonotarios</author>
+  <link>https://www.digital4u.gr</link>
+  <file path="catalog/controller/common/header.php">
+    <operation>
+      <search><![CDATA[return $this->load->view('common/header', $data);]]></search>
+      <add position="before"><![CDATA[
+                
+        if (isset($this->request->get['route'])) {
+
+
+            // FOR SIMPLE "IF" USE TO DETECT CURRENT PAGE > START 
+            // EXAMPLE: {% if( routeClass_og == "product-product") %}
+            
+            $route_og = (string)$this->request->get['route'];
+      			$route_class_og = str_replace('/', '-', $route_og);
+      			$data['routeClass_og'] = $route_class_og;
+      
+      			// FOR SIMPLE "IF" USE TO DETECT CURRENT PAGE > END 
+
+        
+        	if ($this->request->get['route'] == 'information/information') {
+        
+        		$this->load->model('catalog/information');
+        		$layout_id = $this->model_catalog_information->getInformationLayoutId((string)$this->request->get['information_id']);
+        
+        		$data['routeClass'] = str_replace('/', '-', (string)$this->request->get['route']) . ' ' . 'information-id-' . (string)$this->request->get['information_id'] . ' layout-id-' . $layout_id;
+        
+        	} else if ($this->request->get['route'] == 'product/category') {
+        
+        		$this->load->model('catalog/category');
+        		$layout_id = $this->model_catalog_category->getCategoryLayoutId((string)$this->request->get['path']);
+        
+        		$parts = explode('_', $this->request->get['path']);
+        		$value = end($parts);
+        
+        		$data['routeClass'] = str_replace('/', '-', (string)$this->request->get['route']) . ' ' . 'category-id-' . $value . ' layout-id-' . $layout_id;
+        
+        	} else if ($this->request->get['route'] == 'product/product') {
+                $this->load->model('catalog/product');
+                $layout_id = $this->model_catalog_product->getProductLayoutId((string)$this->request->get['product_id']);
+                $data['routeClass'] = str_replace('/', '-', (string)$this->request->get['route']) . ' ' . 'product-id-' . (string)$this->request->get['product_id'] . ' layout-id-' . $layout_id;
+        
+        
+        	} else if ($this->request->get['route'] == 'product/manufacturer/info') {
+        
+        		$data['routeClass'] = str_replace('/', '-', (string)$this->request->get['route']) . ' ' . 'manufacturer-id-' . (string)$this->request->get['manufacturer_id'];
+        
+        	} else {
+        
+        		$route = (string)$this->request->get['route'];
+        		$route_class = str_replace('/', '-', $route);
+        		$data['routeClass'] = $route_class;
+        
+        	}
+        
+        } else {
+        
+        	$route = 'common/home';
+        	$data['routeClass'] = "home";
+        
+        }
+      
+      ]]></add>
+    </operation>
+  </file>
+  
+  <file path="catalog/view/theme/digital4u/template/common/header.twig">
+    <operation>
+      <search><![CDATA[<html dir="{{ direction }}" lang="{{ lang }}">]]></search>
+      <add position="replace"><![CDATA[
+        
+        <html dir="{{ direction }}" lang="{{ lang }}" class="{{ routeClass }}" data-logged-in="{% if logged %}yes{% else %}no{% endif %}">
+
+      ]]></add>
+    </operation>
+    
+  
+    
+  </file>
+</modification>
