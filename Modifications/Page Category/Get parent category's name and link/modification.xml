@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+  <name>GP: Category page > Get parent category's name n link</name>
+  <code>get-parent-category-name-n-link</code>
+  <version>1.0</version>
+  <author>George Protonotarios</author>
+  <link>https://www.digital4u.gr</link>
+  <file path="catalog/controller/product/category.php">
+    <operation>
+      <search><![CDATA[$data['heading_title'] = $category_info['name'];]]></search>
+      <add position="before"><![CDATA[
+            if ($category_info['parent_id'] != 0) {
+				$parent_category_info = $this->model_catalog_category->getCategory($category_info['parent_id']);
+				$data['parent_category_name'] = '<a href="' . $this->url->link('product/category', 'path=' . $parent_category_info['category_id']) . '">' . $parent_category_info['name'] . '</a>';
+			} else {
+				$data['parent_category_name'] = '';
+			}
+      ]]></add>
+    </operation>
+  </file>
+</modification>
