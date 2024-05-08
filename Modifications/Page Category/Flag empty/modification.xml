@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+  <name>GP: Category page > Flag empty</name>
+  <code>category-page-flag-empty</code>
+  <version>1.0</version>
+  <author>George Protonotarios</author>
+  <link>https://www.digital4u.gr</link>
+
+
+  <file path="catalog/controller/product/category.php" error="log">
+    <operation error="skip">
+      <search><![CDATA[
+        foreach ($results as $result) {
+      ]]></search>
+      <add position="before"><![CDATA[
+        // After fetching the category info
+        // $category_info = $this->model_catalog_category->getCategory($category_id);
+
+        // Fetch the total number of products in this category
+        // $product_total = $this->model_catalog_product->getTotalProducts(array('filter_category_id' => $category_id));
+
+        // Pass it to the view
+        $data['product_total'] = $product_total;
+      ]]></add>
+    </operation>
+  </file>
+  <file path="catalog/view/theme/digital4u/template/product/category.twig" error="log">
+    <operation error="skip">
+      <search><![CDATA[
+        {% if products %}
+      ]]></search>
+      <add position="before"><![CDATA[
+        {% if product_total == 0 %}
+            <div class="no_products_message">{{ text_empty }}</div>
+        {% endif %}
+      ]]></add>
+    </operation>
+  </file>
+</modification>
