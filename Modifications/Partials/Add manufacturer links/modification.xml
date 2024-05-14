@@ -174,6 +174,27 @@
 
   </file>
 
+  <!-- PRODUCT PAGE > SPECIAL, LATEST, FEATURED, BESTSELLER -->
+
+  <file path="catalog/controller/extension/module/{special,latest,featured,bestseller}.php">
+
+    <operation>
+      <search><![CDATA[$data['products'][] = array(]]></search>
+      <add position="before"><![CDATA[
+        $manufacturer_href = $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $result['manufacturer_id']);
+      ]]></add>
+    </operation>
+
+    <operation>
+      <search><![CDATA['product_id'  => $result['product_id'],]]></search>
+      <add position="after"><![CDATA[
+        'manufacturer'  => $result['manufacturer'],
+        'manufacturer_href' => $manufacturer_href,
+      ]]></add>
+    </operation>
+
+  </file>
+
   <!-- BLOG SINGLE > RELATED PRODUCTS -->
 
   <file path="catalog/controller/extension/d4u/blog.php">
@@ -201,8 +222,8 @@
 
     <!-- THEME CATALOG TEMPLATES -->
 
-    <file path="catalog/view/theme/digital4u/template/product/{category,manufacturer_info,search,special,product}.twig|catalog/view/theme/digital4u/template/extension/module/{latest,products_carousel,recently_viewed,similar_products_products}.twig|catalog/view/theme/default/template/extension/d4u/blog.twig">
-        <operation>
+    <file path="catalog/view/theme/digital4u/template/product/{category,manufacturer_info,search,special,product}.twig|catalog/view/theme/digital4u/template/extension/module/{products_carousel,recently_viewed,similar_products_products,special,latest,featured,bestseller}.twig|catalog/view/theme/default/template/extension/d4u/blog.twig">
+        <operation
             <search><![CDATA[<div class="caption">]]></search>
             <add position="after"><![CDATA[
         
