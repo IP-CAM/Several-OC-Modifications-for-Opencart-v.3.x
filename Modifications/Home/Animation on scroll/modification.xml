@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+  <name>GP: Home > Add animation on scroll</name>
+  <code>gp-home-add-animation-on-scroll</code>
+  <version>1.0</version>
+  <author>George Protonotarios</author>
+  <link>https://www.digital4u.gr</link>
+
+
+
+  <file path="catalog/view/theme/*/template/common/home.twig">
+    <operation>
+      <search><![CDATA[{{ footer }}]]></search>
+      <add position="after"><![CDATA[
+        
+        <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+        <script>
+
+        // SLIDESHOW - as this is first element it got hiccups and gets fixed below
+
+         document.querySelectorAll('.slideshow').forEach(function(div) {
+            div.style.visibility = 'visible';
+            div.setAttribute('data-aos', 'zoom-out');
+            div.setAttribute('data-aos-delay', 300);
+            div.setAttribute('data-aos-once', true);
+         });
+
+        // ALL SLIDES
+
+        document.querySelectorAll('.swiper-viewport:not(.slideshow)').forEach(function(viewport) {
+            let delay = 0;
+            viewport.querySelectorAll('.swiper-wrapper .swiper-slide').forEach(function(slide) {
+            // slide.style.visibility = 'visible';
+            slide.setAttribute('data-aos', 'fade-up');
+            slide.setAttribute('data-aos-offset', '200');
+            slide.setAttribute('data-aos-delay', delay);
+            slide.setAttribute('data-aos-once', true);
+            delay += 150;
+            });
+        });
+
+        // LATEST BLOG
+
+        let delay = 0;
+        document.querySelectorAll('#latestblog > div').forEach(function(slide) {
+            slide.setAttribute('data-aos', 'fade-up');
+            slide.setAttribute('data-aos-offset', '200');
+            slide.setAttribute('data-aos-delay', delay);
+            slide.setAttribute('data-aos-once', true);
+            delay += 100;
+        });
+
+
+        // HOTSPOT MASTER
+
+        document.querySelectorAll('.hotspot_master:not(.home_fullwidth_hotspot)').forEach(function(div) {
+            div.setAttribute('data-aos', 'zoom-out');
+            div.setAttribute('data-aos-offset', '200');
+            div.setAttribute('data-aos-delay', '600'); 
+            div.setAttribute('data-aos-once', true);
+        });
+
+        document.querySelectorAll('.hotspot_master.home_fullwidth_hotspot').forEach(function(div) {
+            div.setAttribute('data-aos', 'zoom-out');
+            div.setAttribute('data-aos-offset', '200');
+            div.setAttribute('data-aos-once', true);
+        });
+
+        // HEADER
+        
+        // let header = document.querySelector('.common-home header');
+        // header.style.display = 'block';
+        // header.setAttribute('data-aos', 'fade-in');
+        // header.setAttribute('data-aos-delay', '700');
+
+        // FOOTER
+
+            let overfooter = document.querySelector('.footer-top');
+            overfooter.setAttribute('data-aos', 'zoom-out');
+            overfooter.setAttribute('data-aos-offset', '200');
+            overfooter.setAttribute('data-aos-once', true);
+
+
+        document.querySelectorAll('footer').forEach(function(div) {
+            div.setAttribute('data-aos', 'fade-in');
+            div.setAttribute('data-aos-once', true);
+        });
+
+        AOS.init();
+
+        </script>
+
+      ]]></add>
+    </operation>
+  </file>
+
+
+    <!-- fix first element (slideshow) hiccups -->
+
+  <file path="catalog/view/theme/*/template/extension/module/slideshow.twig">
+    <operation>
+      <search><![CDATA[<div class="slideshow swiper-viewport">]]></search>
+      <add position="replace"><![CDATA[
+        <div class="slideshow swiper-viewport" style="visibility:hidden">
+      ]]></add>
+    </operation>
+  </file>
+
+
+
+</modification>
